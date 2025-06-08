@@ -1,0 +1,9 @@
+{
+    "name": "str-tracker-api",
+    "version": "1.0.0",
+    "description": "API to write STR updates to Google Sheets.",
+    "main": "index.js",
+    "dependencies": {
+      "googleapis": "^105.0.0"
+    }
+  }

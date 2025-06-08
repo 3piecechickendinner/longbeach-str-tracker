@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Long Beach STR Petition Tracker</title>
+    <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Long Beach STR Petition Tracker</h1>
+        <p class="subtitle">Track the status of unhosted Short-Term Rental petitions across all 134 census tracts.</p>
+
+        <div class="controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search by tract number (e.g., 5745.00)">
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color banned"></div><span>Banned</span></div>
+            <div class="legend-item"><div class="legend-color pending"></div><span>Pending</span></div>
+            <div class="legend-item"><div class="legend-color failed"></div><span>Failed</span></div>
+            <div class="legend-item"><div class="legend-color no-data"></div><span>No Known Activity</span></div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Census Tracts</div>
+                <div class="stat-number">134</div>
+                <div class="stat-label">in Long Beach</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Successfully Banned</div>
+                <div class="stat-number" id="banned-count">1</div>
+                <div class="stat-label">Tract 5745.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Known Pending</div>
+                <div class="stat-number">9</div>
+                <div class="stat-label">Tracts Not Yet Publicly Identified</div>
+            </div>
+        </div>
+
+        <h3 style="text-align: center;">Click any tract to view details or submit an update</h3>
+        <div class="tract-grid" id="tractGrid"></div>
+
+        <div class="tract-list-section">
+            <h3>Known Petition Activity</h3>
+            <table class="tract-table">
+                <thead>
+                    <tr>
+                        <th>Census Tract</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="known-activity-body">
+                    </tbody>
+            </table>
+        </div>
+
+         <div style="margin-top: 30px; padding: 20px; background-color: #f0f7ff; border-radius: 8px;">
+            <h3 style="color: #2c5aa0;">Important Information</h3>
+            <ul style="color: #444;">
+                <li>The petition period runs from December 2024 through June 2025.</li>
+                <li>Only <strong>unhosted</strong> short-term rentals are affected by successful bans.</li>
+                <li>A petition succeeds if 50%+1 of households in a tract sign it.</li>
+                <li>This site tracks publicly available information and community reports.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="info-modal" id="infoModal">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <h3 id="modalTitle">Census Tract Details</h3>
+        <div id="modalContent"></div>
+        
+        <div class="submit-form">
+            <h4>Submit Status Update</h4>
+            <form id="statusForm">
+                <input type="hidden" id="tractNumberInput">
+                <select id="statusSelect" required>
+                    <option value="" disabled selected>Select New Status</option>
+                    <option value="pending">Petition Pending</option>
+                    <option value="collecting">Collecting Signatures</option>
+                    <option value="failed">Petition Failed</option>
+                    <option value="banned">Successfully Banned</option>
+                </select>
+                <textarea id="details" placeholder="Provide details or a source link (optional)" rows="3"></textarea>
+                <button type="submit" class="submit-btn">Submit Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
