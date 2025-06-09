@@ -153,7 +153,8 @@ h1 {
 .close-modal:hover { color: #333; }
 .submit-form { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;}
 .submit-form h4 { margin-top: 0; }
-.submit-form select, .submit-form textarea {
+/* NEW RULE */
+.submit-form select, .submit-form textarea, .submit-form input[type="email"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
