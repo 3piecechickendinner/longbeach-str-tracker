@@ -1,12 +1,26 @@
-// --- CORRECTED CODE FOR RENDER ---
+// --- FINAL API CODE with Email and Rate Limiting ---
 const express = require('express');
 const { google } = require('googleapis');
+const rateLimit = require('express-rate-limit'); // Import the rate-limit package
 
 const app = express();
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // Render provides the PORT environment variable.
 const PORT = process.env.PORT || 3001;
+
+// Setup the rate limiter
+// This will limit each IP address to 20 form submissions per 15 minutes.
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 20, // Limit each IP to 20 requests per window
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    message: 'Too many requests created from this IP, please try again after 15 minutes'
+});
+
+// Apply the rate limiting middleware to all incoming requests
+app.use(limiter);
 
 // This is crucial for allowing your frontend (on a different URL) to talk to your API.
 app.use((req, res, next) => {
@@ -28,7 +42,6 @@ app.post('/', async (req, res) => {
     }
 
     try {
-        // --- CHANGE 1: Add 'email' to this line ---
         const { tract, status, details, submittedAt, email } = req.body;
 
         if (!tract || !status) {
@@ -47,10 +60,10 @@ app.post('/', async (req, res) => {
 
         await sheets.spreadsheets.values.append({
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: 'A1:E1', // Extend the range to include the new column
+            range: 'A1:E1', // Extended range that includes the email column
             valueInputOption: 'USER_ENTERED',
             resource: {
-                // --- CHANGE 2: Add 'email' to the end of this array ---
+                // Array includes the email field
                 values: [[submittedAt, tract, status, details || '', email || '']],
             },
         });

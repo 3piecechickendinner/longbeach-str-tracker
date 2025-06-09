@@ -4,7 +4,8 @@
     "description": "API to write STR updates to Google Sheets.",
     "main": "index.js",
     "dependencies": {
-      "googleapis": "^105.0.0",
-      "express": "^4.19.2"
+        "express": "^4.19.2",
+        "express-rate-limit": "^7.5.0",
+        "googleapis": "^105.0.0"
     }
-  }
+}
