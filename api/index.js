@@ -1,65 +1,55 @@
-// --- CORRECTED CODE FOR RENDER ---
-const express = require('express');
+// This is a Node.js serverless function that runs on Render
 const { google } = require('googleapis');
 
-const app = express();
-app.use(express.json()); // Middleware to parse JSON bodies
-
-// Render provides the PORT environment variable.
-const PORT = process.env.PORT || 3001;
-
-// This is crucial for allowing your frontend (on a different URL) to talk to your API.
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow any origin
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-control-allow-headers', 'Content-Type');
-    next();
-});
-
-// The browser will send an OPTIONS request first to check CORS, we need to handle it.
-app.options('/', (req, res) => {
-    res.status(200).send('OK');
-});
-
-// This is your main API logic, now inside an app.post() route.
-app.post('/', async (req, res) => {
-    if (!req.body) {
-        return res.status(400).json({ error: 'Bad request: No body provided.' });
+// Export the function handler
+module.exports = async (req, res) => {
+    // We only accept POST requests
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     try {
-        const { tract, status, details, submittedAt } = req.body;
+        const body = req.body;
 
-        if (!tract || !status) {
+        // Basic validation
+        if (!body.tract || !body.status) {
             return res.status(400).json({ error: 'Tract and status are required.' });
         }
 
+        // --- Google Sheets Authentication ---
         const auth = new google.auth.GoogleAuth({
+            // These credentials will be stored securely as Environment Variables on Render
             credentials: {
                 client_email: process.env.GOOGLE_CLIENT_EMAIL,
-                private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+                private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Handle newline characters
             },
             scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         });
 
         const sheets = google.sheets({ version: 'v4', auth });
 
-        await sheets.spreadsheets.values.append({
-            spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: 'A1:D1',
+        // --- Append Data to Sheet ---
+        const response = await sheets.spreadsheets.values.append({
+            spreadsheetId: process.env.GOOGLE_SHEET_ID, // This will also be an Environment Variable
+            range: 'A1:D1', // The range to append to. 'A1:D1' means start after the last row in this range.
             valueInputOption: 'USER_ENTERED',
             resource: {
-                values: [[submittedAt, tract, status, details || '']],
+                values: [
+                    // The data in the order of our columns
+                    [body.submittedAt, body.tract, body.status, body.details || '']
+                ],
             },
         });
 
-        return res.status(200).json({ message: 'Data successfully added to sheet.' });
+        // Send a success response back to the frontend
+        return res.status(200).json({ 
+            message: 'Data successfully added to sheet.',
+            data: response.data 
+        });
 
     } catch (error) {
         console.error('Error writing to Google Sheet:', error);
+        // Send an error response back to the frontend
         return res.status(500).json({ error: 'Failed to write to Google Sheet.' });
     }
-});
-
-// This is the most important line: it starts the server and listens on a port.
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+};
