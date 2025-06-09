@@ -122,28 +122,50 @@ function handleSearch(e) {
  * Handles the submission of the status update form.
  * @param {Event} e - The form submission event.
  */
-function handleFormSubmit(e) {
-    e.preventDefault(); // Prevent page reload
-    const tractNumber = document.getElementById('tractNumberInput').value;
-    const status = document.getElementById('statusSelect').value;
-    const details = document.getElementById('details').value;
+async function handleFormSubmit(e) {
+  e.preventDefault(); // Prevent page reload
+  const submitBtn = e.target.querySelector('.submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
 
-    // Create a clean JSON object for the update
-    const updateData = {
-        tract: tractNumber,
-        status: status,
-        details: details,
-        submittedAt: new Date().toISOString() // Add a timestamp
-    };
-    
-    // For now, we just log it to the console.
-    // In Step 2, we will send this to our API.
-    console.log("Form submitted. Data to be sent to API:", updateData);
+  const tractNumber = document.getElementById('tractNumberInput').value;
+  const status = document.getElementById('statusSelect').value;
+  const details = document.getElementById('details').value;
 
-    alert(`Thank you for your submission for tract ${tractNumber}!\n\nYour update is pending review.`);
-    closeModal();
+  const updateData = {
+      tract: tractNumber,
+      status: status,
+      details: details,
+      submittedAt: new Date().toISOString()
+  };
+
+  try {
+      const response = await fetch('https://str-tracker-api.onrender.com', { 
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updateData),
+      });
+
+      if (!response.ok) {
+          // If server responds with an error, throw it to the catch block
+          throw new Error(`Server error: ${response.statusText}`);
+      }
+
+      alert(`Thank you! Your update for tract ${tractNumber} has been successfully submitted for review.`);
+  
+  } catch (error) {
+      console.error("Failed to submit update:", error);
+      alert("Submission failed. Please try again later.");
+  
+  } finally {
+      // Whether it succeeds or fails, re-enable the button and close the modal
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Update';
+      closeModal();
+  }
 }
-
 // --- Event Listeners ---
 searchBox.addEventListener('input', handleSearch);
 statusForm.addEventListener('submit', handleFormSubmit);
