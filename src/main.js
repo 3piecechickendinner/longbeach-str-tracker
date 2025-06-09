@@ -131,12 +131,16 @@ async function handleFormSubmit(e) {
   const tractNumber = document.getElementById('tractNumberInput').value;
   const status = document.getElementById('statusSelect').value;
   const details = document.getElementById('details').value;
+  // --- CHANGE 1: Get the email value ---
+  const email = document.getElementById('email').value;
 
   const updateData = {
       tract: tractNumber,
       status: status,
       details: details,
-      submittedAt: new Date().toISOString()
+      submittedAt: new Date().toISOString(),
+      // --- CHANGE 2: Add the email to the data object ---
+      email: email,
   };
 
   try {
@@ -149,7 +153,6 @@ async function handleFormSubmit(e) {
       });
 
       if (!response.ok) {
-          // If server responds with an error, throw it to the catch block
           throw new Error(`Server error: ${response.statusText}`);
       }
 
@@ -160,7 +163,6 @@ async function handleFormSubmit(e) {
       alert("Submission failed. Please try again later.");
   
   } finally {
-      // Whether it succeeds or fails, re-enable the button and close the modal
       submitBtn.disabled = false;
       submitBtn.textContent = 'Submit Update';
       closeModal();

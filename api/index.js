@@ -28,7 +28,8 @@ app.post('/', async (req, res) => {
     }
 
     try {
-        const { tract, status, details, submittedAt } = req.body;
+        // --- CHANGE 1: Add 'email' to this line ---
+        const { tract, status, details, submittedAt, email } = req.body;
 
         if (!tract || !status) {
             return res.status(400).json({ error: 'Tract and status are required.' });
@@ -46,10 +47,11 @@ app.post('/', async (req, res) => {
 
         await sheets.spreadsheets.values.append({
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: 'A1:D1',
+            range: 'A1:E1', // Extend the range to include the new column
             valueInputOption: 'USER_ENTERED',
             resource: {
-                values: [[submittedAt, tract, status, details || '']],
+                // --- CHANGE 2: Add 'email' to the end of this array ---
+                values: [[submittedAt, tract, status, details || '', email || '']],
             },
         });
 

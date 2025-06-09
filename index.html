@@ -76,20 +76,23 @@
         <div id="modalContent"></div>
         
         <div class="submit-form">
-            <h4>Submit Status Update</h4>
-            <form id="statusForm">
-                <input type="hidden" id="tractNumberInput">
-                <select id="statusSelect" required>
-                    <option value="" disabled selected>Select New Status</option>
-                    <option value="pending">Petition Pending</option>
-                    <option value="collecting">Collecting Signatures</option>
-                    <option value="failed">Petition Failed</option>
-                    <option value="banned">Successfully Banned</option>
-                </select>
-                <textarea id="details" placeholder="Provide details or a source link (optional)" rows="3"></textarea>
-                <button type="submit" class="submit-btn">Submit Update</button>
-            </form>
-        </div>
+          <h4>Submit Status Update</h4>
+          <form id="statusForm">
+              <input type="hidden" id="tractNumberInput">
+              <select id="statusSelect" required>
+                  <option value="" disabled selected>Select New Status</option>
+                  <option value="pending">Petition Pending</option>
+                  <option value="collecting">Collecting Signatures</option>
+                  <option value="failed">Petition Failed</option>
+                  <option value="banned">Successfully Banned</option>
+              </select>
+              <textarea id="details" placeholder="Provide details or a source link (optional)" rows="3"></textarea>
+      
+              <input type="email" id="email" placeholder="Your email (optional)">
+      
+              <button type="submit" class="submit-btn">Submit Update</button>
+          </form>
+      </div>
     </div>
 
     <script type="module" src="/src/main.js"></script>
