@@ -203,3 +203,28 @@ h1 {
   transform: scale(1.1);
 }
 #modalContent p { margin: 5px 0 15px; line-height: 1.5; }
+
+/* Styling for the new instruction box */
+.instruction-box {
+  background-color: #f0f7ff;
+  border: 1px solid #b3d4ff;
+  border-radius: 8px;
+  padding: 10px 25px;
+  margin: 30px 0;
+}
+.instruction-box h3 {
+  color: #2c5aa0;
+  margin-bottom: 10px;
+}
+.instruction-box ol {
+  padding-left: 25px;
+  margin-top: 0;
+}
+.instruction-box li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.instruction-box a {
+    font-weight: bold;
+    color: #0056b3;
+}
