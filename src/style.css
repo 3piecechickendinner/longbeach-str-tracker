@@ -228,3 +228,23 @@ h1 {
     font-weight: bold;
     color: #0056b3;
 }
+
+/* Styling for the contact footer */
+.contact-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.contact-footer a {
+  color: #0056b3;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.contact-footer a:hover {
+    text-decoration: underline;
+}
