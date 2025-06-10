@@ -24,18 +24,18 @@
         <p class="subtitle">Track the status of unhosted Short-Term Rental petitions across all 134 census tracts.</p>
 
         <div class="instruction-box">
-          <h3>Don't Know Your Census Tract?</h3>
-          <p>You can find your exact number using the official US Census Bureau map by following these steps:</p>
+          <h3>How to Find Your Census Tract & Block Group</h3>
+          <p>You can find your number using the official City of Long Beach map. This is the easiest method.</p>
           <ol>
-            <li>Go to the <a href="https://tigerweb.geo.census.gov/tigerweb/" target="_blank" rel="noopener noreferrer">US Census TIGERweb Map</a>.</li>
-            <li>In the "Layers" Tab on the left, check the box for <strong>"Census Tracts and Blocks"</strong>.</li>
-            <li>In the search bar at the top, type your full property address.</li>
-            <li>Click the magnifying glass icon. The map will zoom to your address and display the tract information.</li>
+            <li>Go to the <a href="https://longbeachca.maps.arcgis.com/apps/webappviewer/index.html?id=a317d15dea8c49038287de63f8cd247d" target="_blank" rel="noopener noreferrer">Long Beach Census Map</a>.</li>
+            <li>In the search box on the left, type your full property address and press Enter.</li>
+            <li>A list will appear below the search bar. Click on the row that says **"Census Block Group"**.</li>
+            <li>The details will then be displayed, including the **"TRACT"** and **"BLKGRP"** numbers.</li>
           </ol>
         </div>
 
         <div class="controls">
-            <input type="text" class="search-box" id="searchBox" placeholder="Search by tract number (e.g., 5745.00)">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search by tract number (e.g., 57410)">
         </div>
 
         <div class="legend">
@@ -46,22 +46,22 @@
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Census Tracts</div>
-                <div class="stat-number">134</div>
-                <div class="stat-label">in Long Beach</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Successfully Banned</div>
-                <div class="stat-number" id="banned-count">1</div>
-                <div class="stat-label">Tract 5745.00</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Known Pending</div>
-                <div class="stat-number">9</div>
-                <div class="stat-label">Tracts Not Yet Publicly Identified</div>
-            </div>
-        </div>
+          <div class="stat-card">
+              <div class="stat-label">Total Census Tracts</div>
+              <div class="stat-number">138</div>
+              <div class="stat-label">in Long Beach</div>
+          </div>
+          <div class="stat-card">
+              <div class="stat-label">Successfully Banned</div>
+              <div class="stat-number" id="banned-count">2</div>
+              <div class="stat-label">Tracts 574500-2 & 577605-3</div>
+          </div>
+          <div class="stat-card">
+              <div class="stat-label">Conducted Petitions</div>
+              <div class="stat-number" id="conducted-count">14</div>
+              <div class="stat-label">Based on City Data</div>
+          </div>
+      </div>
 
         <h3 style="text-align: center;">Click any tract to view details or submit an update</h3>
         <div class="tract-grid" id="tractGrid"></div>
